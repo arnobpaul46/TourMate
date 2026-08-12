@@ -117,49 +117,49 @@ export default function HomePage() {
   return (
     <div className="overflow-x-hidden bg-slate-950">
       {/* Hero */}
-      <section className="relative min-h-[85vh] overflow-hidden md:min-h-[88vh]">
-        <Image
-          src={heroImage}
-          alt="Bangladesh travel destination"
-          fill
-          priority
-          sizes="100vw"
-          className="z-0 object-cover"
-          placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-        />
+      <section className="relative isolate min-h-[85vh] overflow-hidden md:min-h-[88vh]">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={heroImage}
+            alt="Bangladesh travel destination"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
         <div className="absolute inset-0 z-10 bg-slate-950/60" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-emerald-900/30 via-transparent to-slate-950/80" />
+        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-emerald-900/25 via-transparent to-slate-950/70" />
 
-        <div className="relative z-20 mx-auto flex min-h-[85vh] max-w-6xl flex-col items-center justify-center px-4 py-32 text-center md:min-h-[88vh]">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-emerald-300">
+        <div className="relative z-20 mx-auto flex min-h-[85vh] w-full max-w-7xl flex-col items-center justify-center px-4 py-24 text-center sm:px-6 lg:px-8 md:min-h-[88vh]">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300 sm:text-sm">
             Bangladesh · Travel · Adventure
           </p>
-          <h1 className="max-w-4xl text-3xl font-extrabold leading-tight text-white md:text-5xl lg:text-6xl">
+          <h1 className="max-w-4xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
             Discover unforgettable tour packages across Bangladesh
           </h1>
-          <p className="mt-6 max-w-2xl text-base text-slate-200 md:text-lg">
+          <p className="mt-4 max-w-2xl text-sm text-slate-200 sm:mt-6 sm:text-base md:text-lg">
             Search by destination or tour name, browse categories, and book your
             perfect getaway with TourMate.
           </p>
 
           <form
             onSubmit={handleSearchSubmit}
-            className="mt-10 flex w-full max-w-2xl flex-col gap-3 rounded-full border border-white/20 bg-white/10 p-2 backdrop-blur-xl sm:flex-row sm:items-center"
+            className="mt-8 flex w-full max-w-2xl flex-col gap-3 rounded-3xl border border-white/20 bg-white/10 p-3 backdrop-blur-xl sm:mt-10 sm:flex-row sm:items-center sm:rounded-full sm:p-2"
           >
-            <div className="relative flex-1">
-              <Search className="absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-emerald-200" />
+            <div className="relative w-full flex-1">
+              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-emerald-200 sm:left-5" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder="Search tours or locations..."
-                className="h-14 w-full rounded-full bg-transparent py-3.5 pl-12 pr-4 text-white placeholder:text-slate-300 outline-none"
+                className="h-14 w-full rounded-2xl bg-white/5 py-3.5 pl-12 pr-4 text-base text-white placeholder:text-slate-300 outline-none sm:rounded-full sm:bg-transparent"
               />
             </div>
             <button
               type="submit"
-              className="h-14 rounded-full bg-emerald-500 px-8 text-sm font-semibold text-white transition hover:bg-emerald-400 active:scale-95"
+              className="h-14 w-full min-w-[44px] rounded-full bg-emerald-500 px-8 text-sm font-semibold text-white transition hover:bg-emerald-400 active:scale-95 sm:w-auto"
             >
               Search
             </button>
@@ -217,8 +217,8 @@ export default function HomePage() {
       )}
 
       {/* Categories */}
-      <section className="relative overflow-hidden bg-slate-950 px-4 py-12 md:py-20">
-        <div className="relative mx-auto max-w-6xl">
+      <section className="relative overflow-hidden bg-slate-950 px-4 py-12 sm:px-6 md:py-20 lg:px-8">
+        <div className="relative mx-auto max-w-7xl">
           <FadeIn>
             <p className="text-sm font-semibold uppercase tracking-widest text-emerald-400">
               Explore by style
@@ -232,8 +232,8 @@ export default function HomePage() {
             </p>
           </FadeIn>
 
-          {categoriesQuery.isPending && categories.length === 0 ? (
-            <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-6">
+          {categoriesQuery.isLoading ? (
+            <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 lg:gap-6">
               {Array.from({ length: 6 }).map((_, index) => (
                 <Skeleton key={index} className="h-56 rounded-2xl" />
               ))}
@@ -256,11 +256,9 @@ export default function HomePage() {
               />
             </div>
           ) : (
-            <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-6">
-              {categories.map((category, index) => (
-                <FadeIn key={category.id} delay={index * 0.05}>
-                  <CategoryCard category={category} />
-                </FadeIn>
+            <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+              {categories.map((category) => (
+                <CategoryCard key={category.id} category={category} />
               ))}
             </div>
           )}
@@ -268,8 +266,8 @@ export default function HomePage() {
       </section>
 
       {/* Featured */}
-      <section className="bg-slate-900 px-4 py-12 md:py-20">
-        <div className="mx-auto max-w-6xl">
+      <section className="bg-slate-900 px-4 py-12 sm:px-6 md:py-20 lg:px-8">
+        <div className="mx-auto max-w-7xl">
           <FadeIn>
             <div className="flex items-end justify-between gap-4">
               <div>
@@ -292,7 +290,7 @@ export default function HomePage() {
             </div>
           </FadeIn>
 
-          {featuredQuery.isPending && featuredPackages.length === 0 ? (
+          {featuredQuery.isLoading ? (
             <div className="mt-10">
               <PackageCardSkeleton count={6} />
             </div>
@@ -315,10 +313,8 @@ export default function HomePage() {
             </div>
           ) : (
             <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {featuredPackages.slice(0, 6).map((tour, index) => (
-                <FadeIn key={tour.id} delay={index * 0.06}>
-                  <FeaturedPackageCard tour={tour} />
-                </FadeIn>
+              {featuredPackages.slice(0, 6).map((tour) => (
+                <FeaturedPackageCard key={tour.id} tour={tour} />
               ))}
             </div>
           )}

@@ -27,12 +27,11 @@ export default function ImageWithFallback({
   sizes = "100vw",
   containerClassName,
 }: ImageWithFallbackProps) {
+  const fallback = getPackageImage([], categorySlug);
+  const [imgSrc, setImgSrc] = useState(() => src || fallback);
   const [failed, setFailed] = useState(false);
-  const imageSrc = failed
-    ? getPackageImage([], categorySlug)
-    : src || getPackageImage([], categorySlug);
 
-  if (failed && !imageSrc) {
+  if (failed) {
     return (
       <div
         className={cn(
@@ -49,15 +48,19 @@ export default function ImageWithFallback({
   return (
     <div className={cn("relative overflow-hidden", containerClassName)}>
       <Image
-        src={imageSrc}
+        src={imgSrc}
         alt={alt}
         fill={fill}
         priority={priority}
         sizes={sizes}
-        onError={() => setFailed(true)}
+        onError={() => {
+          if (imgSrc !== fallback) {
+            setImgSrc(fallback);
+          } else {
+            setFailed(true);
+          }
+        }}
         className={cn("object-cover", className)}
-        placeholder="blur"
-        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
       />
     </div>
   );

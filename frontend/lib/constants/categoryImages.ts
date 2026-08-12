@@ -3,7 +3,7 @@ export const categoryImages: Record<string, string> = {
   hill: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
   forest: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80",
   historical:
-    "https://images.unsplash.com/photo-1461360228755-6e81c478b882?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1524231757912-849822473237?auto=format&fit=crop&w=800&q=80",
   "haor-lake":
     "https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=800&q=80",
   "city-tour":
