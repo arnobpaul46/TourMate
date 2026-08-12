@@ -145,7 +145,13 @@ export const createTourPackage = async (input: CreateTourPackageInput) => {
   await ensureCategoryExists(input.categoryId);
 
   // slug generate - DB te slug required
-  const slug = input.slug || input.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString().slice(-4);
+  const slug =
+    input.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "") +
+    "-" +
+    Date.now().toString().slice(-4);
   
   return withResolvedImages(
     await prisma.tourPackage.create({
