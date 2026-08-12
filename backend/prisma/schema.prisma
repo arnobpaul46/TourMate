@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  reviews   Review[]
+  bookings  Booking[]
+}
+
+model Category {
+  id           String        @id @default(uuid())
+  name         String
+  slug         String        @unique
+  description  String?
+  isDeleted    Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  tourPackages TourPackage[]
+}
+
+model TourPackage {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  description  String
+  location     String
+  price        Float
+  duration     Int
+  maxGroupSize Int
+  images       String[]
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id])
+  reviews      Review[]
+  isDeleted    Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  bookings     Booking[]
+}
+
+model Review {
+  id            String      @id @default(uuid())
+  rating        Int
+  comment       String?
+  userId        String
+  tourPackageId String
+  user          User        @relation(fields: [userId], references: [id])
+  tourPackage   TourPackage @relation(fields: [tourPackageId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([userId, tourPackageId])
+}
+
+model Booking {
+  id            String        @id @default(uuid())
+  tourPackageId String
+  userId        String
+  travelDate    DateTime
+  guests        Int
+  totalPrice    Float
+  bookingStatus BookingStatus @default(PENDING)
+  paymentStatus PaymentStatus @default(PENDING)
+  isDeleted     Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  tourPackage   TourPackage   @relation(fields: [tourPackageId], references: [id])
+  user          User          @relation(fields: [userId], references: [id])
+}
